@@ -1,0 +1,357 @@
+import { Link } from "react-router";
+import { ArrowRight, Award, Code2, Shield, Heart, CheckCircle2, Target, Zap, Database, Cloud } from "lucide-react";
+import { Button } from "../components/ui/button";
+import { Modal } from "../components/ui/modal";
+import { useState } from "react";
+import { PageHeader } from "../components/layout/PageHeader";
+import { Section } from "../components/layout/Section";
+import { SITE_CONFIG } from "../constants/site";
+import { SEO } from "../components/SEO";
+
+export function AboutPage() {
+  const [selectedTech, setSelectedTech] = useState<number | null>(null);
+
+  const technicalToolkit = [
+    {
+      category: "Backend",
+      icon: <Code2 size={32} />,
+      skills: [
+        { name: "Java", ...techIcons.java },
+        { name: "Python", ...techIcons.python },
+        { name: "Node.js", ...techIcons.nodejs },
+        { name: "Spring Boot", ...techIcons.spring },
+        { name: "Golang", ...techIcons.go },
+      ],
+      description: "Robust server-side development with enterprise-grade frameworks and modern languages for scalable FinTech applications.",
+      projects: ["Payment processing systems", "Banking APIs", "Transaction engines"],
+    },
+    {
+      category: "Frontend",
+      icon: <Zap size={32} />,
+      skills: [
+        { name: "React", ...techIcons.react },
+        { name: "Vue", ...techIcons.vue },
+        { name: "Angular", ...techIcons.angular },
+        { name: "TypeScript", ...techIcons.typescript },
+      ],
+      description: "Modern, responsive user interfaces that deliver exceptional experiences across all devices and platforms.",
+      projects: ["Dashboard interfaces", "Mobile-first apps", "Real-time trading platforms"],
+    },
+    {
+      category: "Databases",
+      icon: <Database size={32} />,
+      skills: [
+        { name: "PostgreSQL", ...techIcons.postgresql },
+        { name: "MySQL", ...techIcons.mysql },
+        { name: "MongoDB", ...techIcons.mongodb },
+        { name: "Redis", ...techIcons.redis },
+      ],
+      description: "Optimized data storage solutions with focus on performance, reliability, and data integrity for financial systems.",
+      projects: ["Transaction databases", "User data management", "Real-time analytics"],
+    },
+    {
+      category: "APIs",
+      icon: <Shield size={32} />,
+      skills: [
+        { name: "REST", svg: `<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#9333ea" d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"/></svg>`, color: "9333ea" },
+        { name: "GraphQL", ...techIcons.graphql },
+        { name: "Microservices", svg: `<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#4f46e5" d="M12 0L3 7v10l9 7 9-7V7l-9-7zm0 2.2L18.8 7 12 11.8 5.2 7 12 2.2zM4 8.5l7 5.3v8.7l-7-5.3V8.5zm9 13.9v-8.7l7-5.3v8.8l-7 5.2z"/></svg>`, color: "4f46e5" },
+        { name: "gRPC", svg: `<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#0d9488" d="M12 2L3 7v10l9 7 9-7V7l-9-5zm0 2.2L18.8 7 12 11.8 5.2 7 12 4.2zM4 8.5l7 5.3v8.7l-7-5.3V8.5zm9 13.9v-8.7l7-5.3v8.8l-7 5.2z"/></svg>`, color: "0d9488" },
+      ],
+      description: "Secure, scalable API architectures that enable seamless integration and communication between systems.",
+      projects: ["Payment gateway integrations", "Banking API connections", "Third-party services"],
+    },
+    {
+      category: "Cloud & DevOps",
+      icon: <Cloud size={32} />,
+      skills: [
+        { name: "Docker", ...techIcons.docker },
+        { name: "Kubernetes", ...techIcons.kubernetes },
+        { name: "AWS", ...techIcons.aws },
+        { name: "Azure", ...techIcons.azure },
+        { name: "CI/CD", svg: `<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#374151" d="M12 2L3 7v10l9 7 9-7V7l-9-5zm0 2.2L18.8 7 12 11.8 5.2 7 12 4.2zM4 8.5l7 5.3v8.7l-7-5.3V8.5zm9 13.9v-8.7l7-5.3v8.8l-7 5.2z"/></svg>`, color: "374151" },
+      ],
+      description: "Cloud-native infrastructure and automated deployment pipelines for reliable, scalable operations.",
+      projects: ["Cloud migrations", "Auto-scaling systems", "Zero-downtime deployments"],
+    },
+  ];
+
+  const valueProps = [
+    {
+      icon: <Award size={32} />,
+      title: "FinTech Specialist",
+      description: "Direct experience at Atom Bank and HSBC with deep understanding of financial regulations and challenges.",
+    },
+    {
+      icon: <Target size={32} />,
+      title: "Problem-Solver",
+      description: "Focus on business outcomes, not just code. Architect solutions that drive real growth.",
+    },
+    {
+      icon: <Shield size={32} />,
+      title: "Security-First",
+      description: "Industry best practices, rigorous testing, and secure coding standards built-in.",
+    },
+  ];
+
+  const impact = [
+    "Co-Founder of Unlock Her Tech",
+    "UN Women UK Delegate",
+    "STEM Ambassador",
+  ];
+
+  return (
+    <div>
+      <SEO 
+        title="About Us" 
+        description="Discover Solvify's mission to empower FinTech startups with enterprise-grade backend solutions. Learn about our expertise and technical toolkit."
+        canonical="/about"
+      />
+      {/* Hero Section */}
+      <PageHeader
+        title="FinTech Expert Dedicated to Your Success"
+        description="8+ years building secure, scalable financial platforms. Passionate about transforming businesses and improving lives through technology."
+      >
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link to="/contact">
+            <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
+              Let's Connect
+              <ArrowRight className="ml-2" size={20} />
+            </Button>
+          </Link>
+          <Link to="/services">
+            <Button size="lg" variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+              Explore Services
+            </Button>
+          </Link>
+        </div>
+      </PageHeader>
+
+      {/* Value Propositions */}
+      <Section spacing="lg">
+        <div className="text-center mb-12">
+          <div className="inline-block bg-accent/10 text-accent px-4 py-2 rounded-full text-sm font-semibold mb-4">
+            WHY WORK WITH ME
+          </div>
+          <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">
+            Your Strategic FinTech Partner
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {valueProps.map((prop, index) => (
+            <div key={index} className="group bg-card border border-border rounded-2xl p-8 hover:border-accent transition-all hover:shadow-lg text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-accent/10 rounded-xl mb-4 text-accent group-hover:scale-110 transition-transform">
+                {prop.icon}
+              </div>
+              <h3 className="text-xl font-semibold text-foreground mb-3">
+                {prop.title}
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">{prop.description}</p>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* Technical Expertise */}
+      <Section variant="muted" spacing="lg" className="bg-gradient-to-br from-secondary/50 to-background">
+        <div className="text-center mb-12">
+          <div className="inline-block bg-accent/10 text-accent px-4 py-2 rounded-full text-sm font-semibold mb-4">
+            TECHNICAL STACK
+          </div>
+          <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-3">
+            Technologies I Master
+          </h2>
+          <p className="text-muted-foreground">Click any category to explore in detail</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+          {technicalToolkit.map((toolkit, index) => (
+            <button
+              key={index}
+              onClick={() => setSelectedTech(index)}
+              className="bg-card border border-border rounded-xl p-6 hover:border-accent transition-all hover:shadow-md group cursor-pointer text-left"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="text-accent group-hover:scale-110 transition-transform">
+                  {toolkit.icon}
+                </div>
+                <h3 className="font-semibold text-foreground">{toolkit.category}</h3>
+              </div>
+              <div className="space-y-2">
+                {toolkit.skills.slice(0, 3).map((skill, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center justify-center gap-2 bg-white border border-gray-200 px-3 py-2 rounded-lg hover:shadow-md transition-all group-hover:scale-105"
+                  >
+                    <div 
+                      dangerouslySetInnerHTML={{ __html: skill.svg }}
+                      style={{ width: 20, height: 20 }}
+                      className="flex-shrink-0"
+                    />
+                    <span className="text-xs font-medium text-foreground">{skill.name}</span>
+                  </div>
+                ))}
+                {toolkit.skills.length > 3 && (
+                  <div className="text-center text-xs text-accent font-medium">
+                    +{toolkit.skills.length - 3} more
+                  </div>
+                )}
+              </div>
+              <div className="mt-4 text-accent text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                View details <ArrowRight size={14} />
+              </div>
+            </button>
+          ))}
+        </div>
+      </Section>
+
+      {/* Stats & Impact */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Stats */}
+            <div>
+              <div className="inline-block bg-accent/10 text-accent px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                EXPERIENCE
+              </div>
+              <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-8">
+                Proven Track Record
+              </h2>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="bg-gradient-to-br from-accent/10 to-accent/5 border border-accent/20 rounded-xl p-6 text-center">
+                  <div className="text-4xl font-bold text-accent mb-2">8+</div>
+                  <div className="text-sm text-muted-foreground">Years Experience</div>
+                </div>
+                <div className="bg-gradient-to-br from-accent/10 to-accent/5 border border-accent/20 rounded-xl p-6 text-center">
+                  <div className="text-4xl font-bold text-accent mb-2">20+</div>
+                  <div className="text-sm text-muted-foreground">Projects Delivered</div>
+                </div>
+                <div className="bg-gradient-to-br from-accent/10 to-accent/5 border border-accent/20 rounded-xl p-6 text-center">
+                  <div className="text-4xl font-bold text-accent mb-2">98%</div>
+                  <div className="text-sm text-muted-foreground">Client Satisfaction</div>
+                </div>
+                <div className="bg-gradient-to-br from-accent/10 to-accent/5 border border-accent/20 rounded-xl p-6 text-center">
+                  <div className="text-4xl font-bold text-accent mb-2">£5M+</div>
+                  <div className="text-sm text-muted-foreground">Revenue Generated</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Beyond the Code */}
+            <div>
+              <div className="inline-block bg-accent/10 text-accent px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                MAKING AN IMPACT
+              </div>
+              <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-6">
+                Beyond the Code
+              </h2>
+              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+                Committed to leveraging technology for positive change and fostering inclusive growth in the tech industry.
+              </p>
+              <div className="space-y-3">
+                {impact.map((item, index) => (
+                  <div key={index} className="flex items-center gap-3 bg-card border border-border rounded-lg p-4">
+                    <Heart className="text-accent flex-shrink-0" size={24} />
+                    <span className="font-medium text-foreground">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-br from-primary to-primary/90 text-primary-foreground relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute bottom-10 left-20 w-64 h-64 bg-accent rounded-full blur-3xl"></div>
+        </div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <h2 className="text-3xl md:text-4xl font-semibold mb-6">
+            Ready to Partner Together?
+          </h2>
+          <p className="text-xl text-gray-200 mb-8">
+            Let's build something exceptional for your FinTech business.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/contact">
+              <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                Book Discovery Call
+                <ArrowRight className="ml-2" size={20} />
+              </Button>
+            </Link>
+            <Link to="/case-studies">
+              <Button size="lg" variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+                View Case Studies
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Technical Stack Modal */}
+      {selectedTech !== null && (
+        <Modal
+          isOpen={true}
+          onClose={() => setSelectedTech(null)}
+          title={technicalToolkit[selectedTech].category}
+        >
+          <div className="space-y-6">
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 bg-accent/10 rounded-xl flex items-center justify-center text-accent flex-shrink-0">
+                {technicalToolkit[selectedTech].icon}
+              </div>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                {technicalToolkit[selectedTech].description}
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+                <CheckCircle2 className="text-accent" size={20} />
+                Technologies & Tools
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {technicalToolkit[selectedTech].skills.map((skill, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center justify-center gap-2 bg-white border border-gray-200 px-4 py-3 rounded-lg hover:shadow-md transition-all"
+                  >
+                    <div 
+                      dangerouslySetInnerHTML={{ __html: skill.svg }}
+                      style={{ width: 24, height: 24 }}
+                      className="flex-shrink-0"
+                    />
+                    <span className="text-sm font-medium text-foreground">{skill.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold text-foreground mb-3">Recent Projects</h3>
+              <div className="space-y-2">
+                {technicalToolkit[selectedTech].projects.map((project, idx) => (
+                  <div key={idx} className="flex items-center gap-3 bg-accent/5 rounded-lg p-3">
+                    <CheckCircle2 className="text-accent flex-shrink-0" size={18} />
+                    <span className="text-muted-foreground">{project}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-border">
+              <Link to="/services">
+                <Button variant="outline" className="w-full">
+                  View Services Using This Stack
+                  <ArrowRight className="ml-2" size={18} />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </Modal>
+      )}
+    </div>
+  );
+}
