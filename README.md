@@ -65,6 +65,9 @@ Live website:[https://solvifyuk.netlify.app](https://solvifyuk.netlify.app)
 | `dev`   | Starts the Vite development server. |
 | `build` | Builds the application for production. |
 
+## Client Aquisition Roadmap
+- [roadmap](https://github.com/solvify/tree/main/src/roadmap)
+
 ## 📂 Project Structure
 
 ```text
